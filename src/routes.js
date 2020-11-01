@@ -1,8 +1,14 @@
-const express = require("express");
-const routes = express.Router();
+const express = require('express')
+const routes = express.Router()
 
-routes.get("/", (req, res)=>{
-    res.send('Connectado!!!')
-});
+const Clientes = require('../clientes')
+const dboperations = require('../dboperations')
 
-module.exports = routes;
+routes.get('/', (req, res) => {
+  dboperations.getClientes().then((result) => {
+    console.log(result)
+  })
+  res.send('ok')
+})
+
+module.exports = routes
