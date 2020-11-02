@@ -40,7 +40,6 @@ module.exports = class SistemaDAO {
   }
 
   async create(
-    ClienteId,
     TipoPessoa,
     NomeCliente,
     RazaoSocial,
@@ -54,7 +53,7 @@ module.exports = class SistemaDAO {
       let cliente = await this._connection
         .request()
         .query(
-          `INSERT INTO Clientes(ClienteId, TipoPessoa, NomeCliente, RazaoSocial, Cep, Email, Classificacao, TelefoneResidencial, TelefoneComercial) VALUES(${ClienteId},'${TipoPessoa}','${NomeCliente}','${RazaoSocial}','${Cep}','${Email}','${Classificacao}','${TelefoneResidencial}','${TelefoneComercial}')`,
+          `INSERT INTO Clientes(TipoPessoa, NomeCliente, RazaoSocial, Cep, Email, Classificacao, TelefoneResidencial, TelefoneComercial) VALUES('${TipoPessoa}','${NomeCliente}','${RazaoSocial}','${Cep}','${Email}','${Classificacao}','${TelefoneResidencial}','${TelefoneComercial}')`,
         )
       return cliente.recordsets[0]
     } catch (error) {

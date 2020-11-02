@@ -30,7 +30,6 @@ const remove = async (req, res) => {
 
 const create = async (req, res) => {
   const {
-    ClienteId,
     TipoPessoa,
     NomeCliente,
     RazaoSocial,
@@ -43,7 +42,6 @@ const create = async (req, res) => {
   try {
     let pool = await sql.connect(config)
     let cliente = await new Clientes(pool).create(
-      ClienteId,
       TipoPessoa,
       NomeCliente,
       RazaoSocial,
