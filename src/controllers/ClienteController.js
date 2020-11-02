@@ -59,7 +59,6 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   const {
-    ClienteId,
     TipoPessoa,
     NomeCliente,
     RazaoSocial,
@@ -69,11 +68,12 @@ const update = async (req, res) => {
     TelefoneResidencial,
     TelefoneComercial,
   } = req.body
+  const { id } = req.params
   try {
     let pool = await sql.connect(config)
     let cliente = await new Clientes(pool).update(
       sql.Int,
-      ClienteId,
+      id,
       TipoPessoa,
       NomeCliente,
       RazaoSocial,
