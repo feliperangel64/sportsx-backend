@@ -41,6 +41,8 @@ module.exports = class SistemaDAO {
 
   async create(
     TipoPessoa,
+    Cpf,
+    Cnpj,
     NomeCliente,
     RazaoSocial,
     Cep,
@@ -53,7 +55,7 @@ module.exports = class SistemaDAO {
       let cliente = await this._connection
         .request()
         .query(
-          `INSERT INTO Clientes(TipoPessoa, NomeCliente, RazaoSocial, Cep, Email, Classificacao, TelefoneResidencial, TelefoneComercial) VALUES('${TipoPessoa}','${NomeCliente}','${RazaoSocial}','${Cep}','${Email}','${Classificacao}','${TelefoneResidencial}','${TelefoneComercial}')`,
+          `INSERT INTO Clientes(TipoPessoa, Cpf, Cnpj, NomeCliente, RazaoSocial, Cep, Email, Classificacao, TelefoneResidencial, TelefoneComercial) VALUES('${TipoPessoa}','${Cpf}','${Cnpj}','${NomeCliente}','${RazaoSocial}','${Cep}','${Email}','${Classificacao}','${TelefoneResidencial}','${TelefoneComercial}')`,
         )
       return cliente.recordsets[0]
     } catch (error) {
@@ -65,6 +67,8 @@ module.exports = class SistemaDAO {
     type,
     ClienteId,
     TipoPessoa,
+    Cpf,
+    Cnpj,
     NomeCliente,
     RazaoSocial,
     Cep,
@@ -78,7 +82,7 @@ module.exports = class SistemaDAO {
         .request()
         .input('input_parameter', type, ClienteId)
         .query(
-          `UPDATE Clientes SET TipoPessoa='${TipoPessoa}', NomeCliente='${NomeCliente}', RazaoSocial='${RazaoSocial}', Cep='${Cep}', Email='${Email}', Classificacao='${Classificacao}', TelefoneResidencial='${TelefoneResidencial}', TelefoneComercial='${TelefoneComercial}' where ClienteId = @input_parameter`,
+          `UPDATE Clientes SET TipoPessoa='${TipoPessoa}', Cpf='${Cpf}', Cnpj='${Cnpj}', NomeCliente='${NomeCliente}', RazaoSocial='${RazaoSocial}', Cep='${Cep}', Email='${Email}', Classificacao='${Classificacao}', TelefoneResidencial='${TelefoneResidencial}', TelefoneComercial='${TelefoneComercial}' where ClienteId = @input_parameter`,
         )
       return cliente.recordsets[0]
     } catch (error) {

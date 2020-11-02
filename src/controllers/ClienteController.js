@@ -31,6 +31,8 @@ const remove = async (req, res) => {
 const create = async (req, res) => {
   const {
     TipoPessoa,
+    Cpf,
+    Cnpj,
     NomeCliente,
     RazaoSocial,
     Cep,
@@ -43,6 +45,8 @@ const create = async (req, res) => {
     let pool = await sql.connect(config)
     let cliente = await new Clientes(pool).create(
       TipoPessoa,
+      Cpf,
+      Cnpj,
       NomeCliente,
       RazaoSocial,
       Cep,
@@ -60,6 +64,8 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   const {
     TipoPessoa,
+    Cpf,
+    Cnpj,
     NomeCliente,
     RazaoSocial,
     Cep,
@@ -75,6 +81,8 @@ const update = async (req, res) => {
       sql.Int,
       id,
       TipoPessoa,
+      Cpf,
+      Cnpj,
       NomeCliente,
       RazaoSocial,
       Cep,
