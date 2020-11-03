@@ -5,52 +5,36 @@ module.exports = class SistemaDAO {
   }
 
   async findAll() {
-    try {
-      let clientes = await this._connection
-        .request()
-        .query('SELECT * from Clientes')
-      return clientes.recordsets[0]
-    } catch (error) {
-      console.log(error)
-    }
+    let clientes = await this._connection
+      .request()
+      .query(`SELECT * FROM  ${this._table}`)
+    return clientes.recordsets[0]
   }
 
   async findById(type, param) {
-    try {
-      let cliente = await this._connection
-        .request()
-        .input('input_parameter', type, param)
-        .query('SELECT * from Clientes where ClienteId = @input_parameter')
-      return cliente.recordsets[0]
-    } catch (error) {
-      console.log(error)
-    }
+    let cliente = await this._connection
+      .request()
+      .input('input_parameter', type, param)
+      .query(`SELECT * FROM ${this._table} WHERE ClienteId = @input_parameter`)
+    return cliente.recordsets[0]
   }
 
   async findByName(param) {
-    try {
-      let cliente = await this._connection
-        .request()
-        .query(`SELECT * from Clientes where NomeCliente LIKE '%${param}%'`)
-      return cliente.recordsets[0]
-    } catch (error) {
-      console.log(error)
-    }
+    let cliente = await this._connection
+      .request()
+      .query(`SELECT * FROM ${this._table} WHERE NomeCliente LIKE '%${param}%'`)
+    return cliente.recordsets[0]
   }
 
   async remove(type, param) {
-    try {
-      let cliente = await this._connection
-        .request()
-        .input('input_parameter', type, param)
-        .query('DELETE Clientes where ClienteId = @input_parameter')
-      return cliente.recordsets[0]
-    } catch (error) {
-      console.log(error)
-    }
+    let ret = await this._connection
+      .request()
+      .input('input_parameter', type, param)
+      .query('DELETE Clientes where ClienteId = @input_parameter')
+    return ret
   }
 
-  async create(
+  async create({
     TipoPessoa,
     Cpf,
     Cnpj,
@@ -61,43 +45,35 @@ module.exports = class SistemaDAO {
     Classificacao,
     TelefoneResidencial,
     TelefoneComercial,
-  ) {
-    try {
-      let cliente = await this._connection
-        .request()
-        .query(
-          `INSERT INTO Clientes(TipoPessoa, Cpf, Cnpj, NomeCliente, RazaoSocial, Cep, Email, Classificacao, TelefoneResidencial, TelefoneComercial) VALUES('${TipoPessoa}','${Cpf}','${Cnpj}','${NomeCliente}','${RazaoSocial}','${Cep}','${Email}','${Classificacao}','${TelefoneResidencial}','${TelefoneComercial}')`,
-        )
-      return cliente.recordsets[0]
-    } catch (error) {
-      console.log(error)
-    }
+  }) {
+    let ret = await this._connection.request().query(
+      `INSERT INTO ${this._table} (TipoPessoa, Cpf, Cnpj, NomeCliente, RazaoSocial, Cep, Email, Classificacao, TelefoneResidencial, TelefoneComercial) 
+          VALUES('${TipoPessoa}','${Cpf}','${Cnpj}','${NomeCliente}','${RazaoSocial}','${Cep}','${Email}','${Classificacao}','${TelefoneResidencial}','${TelefoneComercial}')`,
+    )
+    return ret
   }
 
-  async update(
-    type,
-    ClienteId,
-    TipoPessoa,
-    Cpf,
-    Cnpj,
-    NomeCliente,
-    RazaoSocial,
-    Cep,
-    Email,
-    Classificacao,
-    TelefoneResidencial,
-    TelefoneComercial,
-  ) {
-    try {
-      let cliente = await this._connection
-        .request()
-        .input('input_parameter', type, ClienteId)
-        .query(
-          `UPDATE Clientes SET TipoPessoa='${TipoPessoa}', Cpf='${Cpf}', Cnpj='${Cnpj}', NomeCliente='${NomeCliente}', RazaoSocial='${RazaoSocial}', Cep='${Cep}', Email='${Email}', Classificacao='${Classificacao}', TelefoneResidencial='${TelefoneResidencial}', TelefoneComercial='${TelefoneComercial}' where ClienteId = @input_parameter`,
-        )
-      return cliente.recordsets[0]
-    } catch (error) {
-      console.log(error)
-    }
+  async update(type, ClienteId, cliente) {
+    const {
+      TipoPessoa,
+      Cpf,
+      Cnpj,
+      NomeCliente,
+      RazaoSocial,
+      Cep,
+      Email,
+      Classificacao,
+      TelefoneResidencial,
+      TelefoneComercial,
+    } = cliente
+    let ret = await this._connection
+      .request()
+      .input('input_parameter', type, ClienteId)
+      .query(
+        `UPDATE ${this._table} 
+        SET TipoPessoa='${TipoPessoa}', Cpf='${Cpf}', Cnpj='${Cnpj}', NomeCliente='${NomeCliente}', RazaoSocial='${RazaoSocial}', Cep='${Cep}', Email='${Email}', Classificacao='${Classificacao}', TelefoneResidencial='${TelefoneResidencial}', TelefoneComercial='${TelefoneComercial}' 
+        WHERE ClienteId = @input_parameter`,
+      )
+    return ret
   }
 }
