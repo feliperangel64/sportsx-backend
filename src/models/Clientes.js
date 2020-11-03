@@ -30,7 +30,7 @@ module.exports = class SistemaDAO {
     let ret = await this._connection
       .request()
       .input('input_parameter', type, param)
-      .query('DELETE Clientes where ClienteId = @input_parameter')
+      .query(`DELETE ${this._table} WHERE ClienteId = @input_parameter`)
     return ret
   }
 
