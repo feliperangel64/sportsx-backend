@@ -27,6 +27,17 @@ module.exports = class SistemaDAO {
     }
   }
 
+  async findByName(param) {
+    try {
+      let cliente = await this._connection
+        .request()
+        .query(`SELECT * from Clientes where NomeCliente LIKE '%${param}%'`)
+      return cliente.recordsets[0]
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async remove(type, param) {
     try {
       let cliente = await this._connection

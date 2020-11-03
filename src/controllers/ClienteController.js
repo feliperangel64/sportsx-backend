@@ -18,6 +18,16 @@ const findById = async (req, res) => {
   }
 }
 
+const findByName = async (req, res) => {
+  try {
+    let pool = await sql.connect(config)
+    let cliente = await new Clientes(pool).findByName(req.params.name)
+    return res.json(cliente)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const remove = async (req, res) => {
   try {
     let pool = await sql.connect(config)
@@ -100,6 +110,7 @@ const update = async (req, res) => {
 module.exports = {
   findAll,
   findById,
+  findByName,
   remove,
   create,
   update,
